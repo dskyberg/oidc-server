@@ -1,19 +1,32 @@
-# Examples
+## How-To
+### Prerequisits
+* OIDC Client: This server was tested with https://github.com/dskyberg/oidc-client-spa
+* Node: Before you begin, ensure Node is installed.  This has been tested with Node 14.0.4.
 
-See the following examples
+Download this repository
+````bash
+$ git clone https://github.com/dskyberg/oidc-server.git
+````
 
-- [Koa](/example/koa.js)
-  - the provider is a part of your Koa application
-- [Express](/example/express.js)
-  - the provider is a part of your express application
-- [Standalone](/example/standalone.js)
-  - the provider is completely standalone
+Install the node components
+````bash
+$ cd oidc-server
+$ npm install
+````
 
-Further resources
+Run the server
+````bash
+$ npm start
+````
+The server should be running
 
-- [Configuration](/docs/README.md)
-- [Mounting to a path](/docs/README.md#mounting-oidc-provider)
+## Accounts (Users)
+The user accounts are defined in [support/users.js](./spport/users.js)
 
-Useful to know oidc-provider dependencies
-- [Koa](https://koajs.com/) - web framework oidc-provider uses internally
-- [jose](https://github.com/panva/jose) - everything JOSE
+Paswords are not currently validated by the server.  So, no passwords are in the users.js file.
+
+To change any account attributes, just update an account in users.js and restart the server.
+## Clients
+Clients are currently configured directly in [support/configuration.js](./support/configuration.js), near the top of the file.
+
+To modify or add a client, simply update configuration.js and restart the server.
