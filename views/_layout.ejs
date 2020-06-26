@@ -4,241 +4,152 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Sign-in</title>
+    <link rel="stylesheet" type="text/css" href="/public/layout.css" />
     <style>
-@import url(https://fonts.googleapis.com/css?family=Roboto:400,100);
-html {
-  background-color: #fafafa;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    margin-top: 25px;
-    margin-bottom: 25px;
-}
-
-.login-card {
-    padding: 24px;
-    padding-bottom: 48px;
-    width: 405px;
-    background-color: #Ffffff;
-    margin: 0 auto 10px;
-    margin-top: 32px
-    border-radius: 2px;
-    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-}
-
-.login-card+.login-card {
-    padding-top: 10px;
-}
-
-.login-card h3 {
-    font-weight: 400;
-    text-align: center;
-    font-size: 1.4rem;
-}
-.login-card label {
-  color: #141414;
-  font-size: 14px;
-  padding-bottom: 8px;
-  line-height: 19px;
-  height: 26px;
-}
-
-.login-card [type=submit] {
-    width: 100%;
-    display: block;
-    margin-bottom: 10px;
-    position: relative;
-}
-
-.login-card input[type=text],
-input[type=email],
-input[type=password] {
-    height: 44px;
-    font-size: 16px;
-    width: 100%;
-    margin-bottom: 10px;
-    -webkit-appearance: none;
-    background: #fff;
-    border: 1px solid #d9d9d9;
-    border-top: 1px solid #c0c0c0;
-    padding: 0 8px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-
-.login {
-    text-align: center;
-    font-size: 20px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: 400;
-    height: 48px;
-    padding: 0 8px;
-}
-
-.login-submit {
-    border: 0px;
-    color: #fff;
-    text-shadow: 0 1px rgba(0, 0, 0, 0.1);
-    background-color: rgb(0,129,64);
-    border-radius: 4px;
-    line-height: 48px;
-    font-stretch: 100%;
-}
-
-.google-button {
-    height: 40px;
-    border-width: 0;
-    background: white;
-    color: #737373;
-    border-radius: 5px;
-    white-space: nowrap;
-    box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.05);
-    transition-property: background-color, box-shadow;
-    transition-duration: 150ms;
-    transition-timing-function: ease-in-out;
-    padding: 0;
-    &:focus,
-    &:hover {
-        box-shadow: 1px 4px 5px 1px rgba(0, 0, 0, 0.1);
-    }
-    &:active {
-        background-color: #e5e5e5;
-        box-shadow: none;
-        transition-duration: 10ms;
-    }
-}
-
-.google-button__icon {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 8px 0 8px 8px;
-    width: 18px;
-    height: 18px;
-    box-sizing: border-box;
-}
-
-.google-button__icon--plus {
-    width: 27px;
-}
-
-.google-button__text {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 0 24px;
-    font-size: 14px;
-    font-weight: bold;
-    font-family: 'Roboto', arial, sans-serif;
-}
-
-.login-card a {
-    text-decoration: none;
-    color: #666;
-    font-weight: 400;
-    text-align: center;
-    display: inline-block;
-    opacity: 0.6;
-}
-
-.login-help {
-    color: #666;
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
-}
-
-.login-client-image img {
-    margin-bottom: 20px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 20%;
-}
-
-.login-card input[type=checkbox] {
-    margin-bottom: 10px;
-}
-
-.login-card label {
-    color: #999;
-}
-
-.grant-debug {
-    text-align: center;
-    font-family: Fixed, monospace;
-    width: 100%;
-    font-size: 12px;
-    color: #999;
-}
-
-.grant-debug div {
-    padding-top: 10px;
-}
-
-.login-help+form {
-    margin-top: 10px;
-}
-
-ul {
-    font-weight: 100;
-    padding-left: 1em;
-    list-style-type: circle;
-}
-
-li+ul,
-ul+li,
-li+li {
-    padding-top: 0.3em;
-}
-
-button {
-    cursor: pointer;
-}
     </style>
   </head>
   <body>
-    <div class="login-card">
-      <h3><%= title %></h3>
-      <%- body %>
-      <div class="login-help">
-        <a href="/interaction/<%= uid %>/abort">[ Cancel ]</a>
-        <% if (client.tosUri) { %>
-          <a href="<%= client.tosUri %>">[ Terms of Service ]</a>
-        <% } %>
-        <% if (client.policyUri) { %>
-          <a href="<%= client.policyUri %>">[ Privacy Policy ]</a>
-        <% } %>
+  <app-root>
+    <div class="make-footer-sticky">
+      <ci-header>
+        <header class="header-wrapper">
+          <div class="header">
+            <div class="header-logo-container">
+              <img class="header-logo" src="/public/images/capital-one-logo.svg" alt="Capital One Homepage" />
+            </div>
+            <div class="header-menu">
+              <ul class="margin-none">
+                <li class="header-menuitem">
+                  <button class="header-button">
+                    <span>
+                      <img alt="Country Flag" class="header-country-flag" src="/public/images/us-flag.svg" />
+                    </span>
+                    <span>
+                    <svg class="header-arrow-icon" viewBox="0 0 19.3 12.21"><path d="M19.3 2.56L16.73 0 9.65 7.08 2.56 0 0 2.56l9.65 9.65 9.65-9.65"></path></svg>
+                    </span>
+                  </button>
+                </li>
+                <li class="header-menuitem">
+                  <button class="header-button">
+                    <span>English</span>
+                    <span>
+                    <svg class="header-arrow-icon" viewBox="0 0 19.3 12.21"><path d="M19.3 2.56L16.73 0 9.65 7.08 2.56 0 0 2.56l9.65 9.65 9.65-9.65"></path></svg>
+                    </span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </header>
+      </ci-header>
+      <div class="main-body">
+        <app-sign-in>
+          <ci-content-card>
+          <div class="login-card">
+          <img class="sign-in-card_title-image" src="/public/images/icon-user.svg" />
+            <h3><%= title %></h3>
+            <%- body %>
+            <div class="login-help">
+              <a href="/interaction/<%= uid %>/abort">[ Cancel ]</a>
+              <% if (client.tosUri) { %>
+                <a href="<%= client.tosUri %>">[ Terms of Service ]</a>
+              <% } %>
+              <% if (client.policyUri) { %>
+                <a href="<%= client.policyUri %>">[ Privacy Policy ]</a>
+              <% } %>
+            </div>
+          </div>
+          </ci-content-card>
+        </app-sign-in>
+          <div class="grant-debug">
+            <details>
+              <summary style="text-align: center;">(Click to expand) DEBUG information</summary>
+              <div>
+                <strong>uid</strong>: <%= uid %>
+              </div>
+
+              <% if (session) { %>
+              <div>
+                SESSION <br>
+              ========= <br>
+                <%- session %>
+              </div>
+              <% } %>
+
+              <div>
+                PARAMS <br>
+              ======== <br>
+                <%- dbg.params %>
+              </div>
+
+              <div>
+                PROMPT <br>
+              ======== <br>
+                <%- dbg.prompt %>
+              </div>
+            </details>
+          </div>
       </div>
     </div>
-    <div class="grant-debug">
-      <details>
-        <summary style="text-align: center;">(Click to expand) DEBUG information</summary>
-        <div>
-          <strong>uid</strong>: <%= uid %>
-        </div>
+    <ci-footer>
+      <footer>
+        <div class="footer">
+          <nav class="footer-nav footer-width">
+            <div class="footer-nav-wrapper">
+              <ul class="footer-navbar">
+                <li class="footer-has-subnav">
+                  <button>Products</button>
+                </li>
+                <li class="footer-has-subnav">
+                  <button>About Us</button>
+                </li>
+                <li class="footer-has-subnav">
+                  <button>Careers</button>
+                </li>
+                <li class="footer-has-subnav">
+                  <button>Legal</button>
+                </li>
 
-        <% if (session) { %>
-        <div>
-          SESSION <br>
-         ========= <br>
-          <%- session %>
+              </ul>
+              <ul class="footer-navbar">
+                <li>
+                  <a>Contact Us</a>
+                </li>
+                <li>
+                  <a>Privacy</a>
+                </li>
+                <li>
+                  <a>Security</a>
+                </li>
+                <li>
+                  <a>Terms & Conditions</a>
+                </li>
+                <li>
+                  <a>Accessibility</a>
+                </li>
+              </ul>
+            </div>
+            <div class="footer-social-media">
+              <a class="twitter" ></a>
+              <a class="facebook" ></a>
+              <a class="you-tube" ></a>
+              <a class="linkedin" ></a>
+              <a class="instagram" ></a>
+            </div>
+          </nav>
+          <div class="footer-branding footer-width">
+            <div class="id">
+              <a class="logo" aria-label="Capial One"></a>
+              <span _ngcontent-mdc-c3="" class="copyright margin-top-xsmall">©2019 Capital One</span>
+            </div>
+            <div class="assoc">
+              <a class="fdic" id="fdic" aria-label="Member FDIC"></a>
+              <span class="ehl">Equal Housing Lender</span>
+            </div>
+          </div>
         </div>
-        <% } %>
-
-        <div>
-          PARAMS <br>
-         ======== <br>
-          <%- dbg.params %>
-        </div>
-
-        <div>
-          PROMPT <br>
-         ======== <br>
-          <%- dbg.prompt %>
-        </div>
-      </details>
-    </div>
+      </footer>
+    </ci-footer>
+    </app-root>
   </body>
 </html>

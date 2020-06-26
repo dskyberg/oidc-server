@@ -7,6 +7,10 @@ const Koa = require('koa');
 const render = require('koa-ejs');
 const helmet = require('koa-helmet');
 const mount = require('koa-mount');
+const serve = require('koa-static');
+const staticCache = require('koa-static-cache');
+const koaLogger = require('koa-logger-middleware');
+const winston = require('winston')
 
 const { Provider } = require('oidc-provider'); // require('oidc-provider');
 
@@ -14,10 +18,29 @@ const Account = require('./support/account');
 const configuration = require('./support/configuration');
 const routes = require('./routes/op');
 
+// Enable runtime transpiling for jsx files.
+const register = require('@babel/register')
+
 const { PORT = 3082, ISSUER = `http://localhost:${PORT}` } = process.env;
 configuration.findAccount = Account.findAccount;
 
 const app = new Koa();
+
+
+// configure the Winston logger middleware.
+const loggerOptions = {
+  logger: winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    transports: [
+      new winston.transports.Console({
+        format: winston.format.simple(),
+        colorize: true,
+      })
+    ]
+  }),
+}
+app.use(koaLogger(loggerOptions));
 
 app.use(helmet());
 render(app, {
@@ -46,6 +69,12 @@ if (process.env.NODE_ENV === 'production') {
     }
   });
 }
+
+// Add the static file handler.  Any files in '/public' will be served with this
+// So, to load a css file, use:
+// <link rel="stylesheet" type="text/css" href="/public/mystyles.css" />
+app.use(mount('/public', serve('./public')));
+app.use(staticCache(path.join(__dirname,'public')))
 
 let server;
 (async () => {
