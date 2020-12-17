@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="/public/layout.css" />
-    <style>
-    </style>
+    <link rel="stylesheet" type="text/css" href="/public/css/layout.css" />
   </head>
   <body>
   <app-root>
@@ -15,7 +13,7 @@
         <header class="header-wrapper">
           <div class="header">
             <div class="header-logo-container">
-              <img class="header-logo" src="/public/images/capital-one-logo.svg" alt="Capital One Homepage" />
+              <img class="header-logo" src="/public/images/idp_logo.svg" alt="IDP Homepage" />
             </div>
             <div class="header-menu">
               <ul class="margin-none">
@@ -43,24 +41,7 @@
         </header>
       </ci-header>
       <div class="main-body">
-        <app-sign-in>
-          <ci-content-card>
-          <div class="login-card">
-          <img class="sign-in-card_title-image" src="/public/images/icon-user.svg" />
-            <h3><%= title %></h3>
-            <%- body %>
-            <div class="login-help">
-              <a href="/interaction/<%= uid %>/abort">[ Cancel ]</a>
-              <% if (client.tosUri) { %>
-                <a href="<%= client.tosUri %>">[ Terms of Service ]</a>
-              <% } %>
-              <% if (client.policyUri) { %>
-                <a href="<%= client.policyUri %>">[ Privacy Policy ]</a>
-              <% } %>
-            </div>
-          </div>
-          </ci-content-card>
-        </app-sign-in>
+        <%- body %>
           <div class="grant-debug">
             <details>
               <summary style="text-align: center;">(Click to expand) DEBUG information</summary>
@@ -86,6 +67,12 @@
                 PROMPT <br>
               ======== <br>
                 <%- dbg.prompt %>
+              </div>
+
+              <div>
+                CLAIMS <br>
+              ======== <br>
+                <%- dbg.scope_claims %>
               </div>
             </details>
           </div>

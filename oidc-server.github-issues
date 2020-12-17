@@ -1,0 +1,7 @@
+[
+  {
+    "kind": 2,
+    "language": "github-issues",
+    "value": "// define repo and current milestones\n$current=milestone:\"July 2020\"\n$repo=repo:dskyberg/oidc-server\n"
+  }
+]

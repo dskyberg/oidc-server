@@ -1,0 +1,63 @@
+<app-sign-in>
+  <ci-content-card>
+  <div class="content-card">
+  <img class="sign-in-card_title-image" src="/public/images/icon-user.svg" />
+    <h3 class="content-card-header"><%= title %></h3>
+    <div class="content-card-inner">
+      <form autocomplete="off" action="/interaction/<%= uid %>/login" method="post">
+        <div class="ods-form-field">
+          <label class="ods-textfield_label" id="label-input-0" for="ods-input-0">Username</label>
+          <input id="ods-input-0" class="ods-textfield_input" required type="text" name="login" placeholder="Try bob.smith@example.com" style="padding-left:3rem;" <% if (!params.login_hint) { %>autofocus="on"<% } else { %> value="<%= params.login_hint %>" <% } %>>
+          <ods-icon class="ods-textfield_icon-left ods-textfield_icon">
+            <svg width="100%" height="100%" viewBox="0 0 11 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="user" fit="" preserveAspectRatio="xMidYMid meet" focusable="false">
+                <g id="Home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g id="Outline" transform="translate(-433.000000, -384.000000)" fill="#263A48">
+                        <path d="M435.8242,387.6394 C435.8242,389.0054 436.8782,390.0874 438.2402,390.0874 C439.5992,390.0874 440.6562,389.0074 440.6562,387.6394 C440.6562,386.2674 439.5942,385.1924 438.2402,385.1924 C436.8862,385.1924 435.8242,386.2674 435.8242,387.6394 L435.8242,387.6394 Z M435.1202,387.6394 C435.1202,385.9374 436.4942,384.5204 438.2402,384.5204 C439.9532,384.5204 441.3602,385.9034 441.3602,387.6394 C441.3602,389.3544 439.9722,390.7594 438.2402,390.7594 C436.5222,390.7594 435.1202,389.3684 435.1202,387.6394 L435.1202,387.6394 Z M438.2402,392.2474 C435.9712,392.2474 434.1062,393.0604 433.8882,395.2874 L442.5922,395.2874 C442.3752,393.0594 440.5072,392.2474 438.2402,392.2474 L438.2402,392.2474 Z M433.0562,395.9594 L433.1042,395.4484 C433.3622,392.6794 435.4462,391.5764 438.2402,391.5764 C441.0272,391.5764 443.1172,392.6734 443.3762,395.4484 L443.4242,395.9594 L433.0562,395.9594 Z" id="User"></path>
+                    </g>
+                </g>
+            </svg>
+          </ods-icon>
+        </div>
+        <div class="ods-form-field">
+          <label class="ods-textfield_label" id="label-input-1" for="ods-input-1">Password</label>
+          <input id="ods-input-1" class="ods-textfield_input" required type="password" name="password" placeholder="any password works" style="padding-left:3rem;" <% if (params.login_hint) { %>autofocus="on"<% } %>>
+          <ods-icon class="ods-textfield_icon-left ods-textfield_icon" aria-hidden="true" aria-label="locked" >
+            <svg width="100%" height="100%" viewBox="0 0 11 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="locked" fit="" preserveAspectRatio="xMidYMid meet" focusable="false">
+              <g id="Home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g id="Outline" transform="translate(-433.000000, -192.000000)" fill="#263A48">
+                      <path d="M437.3604,199.0559 C437.3604,198.5589 437.7494,198.1759 438.2404,198.1759 C438.7364,198.1759 439.1214,198.5659 439.1214,199.0559 C439.1214,199.4049 438.9154,199.6729 438.6254,199.8399 L438.6254,201.3919 L437.8564,201.3919 L437.8564,199.8399 C437.5644,199.7149 437.3604,199.4289 437.3604,199.0559 L437.3604,199.0559 Z M436.0804,195.9839 L440.4004,195.9839 L440.4004,195.1039 C440.4004,193.6469 439.6784,192.6719 438.2404,192.6719 C436.8144,192.6719 436.0804,193.6529 436.0804,195.1039 L436.0804,195.9839 Z M434.8484,196.6559 C434.3734,196.6559 434.0804,196.9569 434.0804,197.4239 L434.0804,199.9039 C434.0804,202.2129 435.9254,203.4079 438.2404,203.4079 C440.5534,203.4079 442.4004,202.2149 442.4004,199.9039 L442.4004,197.4239 C442.4004,196.9529 442.1034,196.6559 441.6324,196.6559 L434.8484,196.6559 Z M435.4084,195.9839 L435.4084,195.1039 C435.4084,193.0779 436.5394,191.9999 438.2404,191.9999 C440.1054,191.9999 441.0724,193.2149 441.0724,195.1039 L441.0724,195.9839 L441.6324,195.9839 C442.5114,195.9839 443.0724,196.5489 443.0724,197.4239 L443.0724,199.9039 C443.0724,202.5989 441.0144,204.0799 438.2404,204.0799 C435.4824,204.0799 433.4084,202.6109 433.4084,199.9039 L433.4084,197.4239 C433.4084,196.5579 433.9604,195.9839 434.8484,195.9839 L435.4084,195.9839 Z" id="Lock"></path>
+                  </g>
+              </g>
+            </svg>
+          </ods-icon>
+        </div>
+        <div class="row remember-me template4-remember-me">
+          <input type="checkbox" class="form-framework" id="remember-me" aria-checkd="false"/>
+          <label for="template4-remember-me-text" class="template4-remember-me-text optimist-font">
+          Remember Me
+          </label>
+        </div>
+        <div class="buttons-block">
+          <div class="left-button">
+            <button type="cancel" class="btn-block optimist-btn-text"
+            onclick="javascript:window.location='/interaction/<%= uid %>/abort';">Cancel</button>
+          </div>
+          <div class="right-button">
+            <button type="submit" class="btn-block optimist-btn-text signin-button">Sign In</button>
+          </div>
+        </div>
+      </form>
+      <p><a >Forgot Username or Password?</a></p>
+      <p><a>Setup Online Access</a></p>
+    </div>
+    <div class="login-help">
+      <% if (client.tosUri) { %>
+        <a href="<%= client.tosUri %>">[ Terms of Service ]</a>
+      <% } %>
+      <% if (client.policyUri) { %>
+        <a href="<%= client.policyUri %>">[ Privacy Policy ]</a>
+      <% } %>
+    </div>
+  </div>
+  </ci-content-card>
+</app-sign-in>

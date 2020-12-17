@@ -11,6 +11,7 @@ const users = [
     name: 'Bob Smith',
     phone_number: '+49 000 000000',
     phone_number_verified: false,
+    roles: ['user', 'admin'],
     updated_at: 1454704946
   },
     {
@@ -25,6 +26,7 @@ const users = [
       name: 'Kim Davidson',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {
@@ -39,6 +41,7 @@ const users = [
       name: 'Glenn Mckinney',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {
@@ -53,6 +56,7 @@ const users = [
       name: 'Pamela Mathis',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {
@@ -67,6 +71,7 @@ const users = [
       name: 'Clint Welch',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {
@@ -81,6 +86,7 @@ const users = [
       name: 'Emanuel Fox',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {
@@ -95,6 +101,7 @@ const users = [
       name: 'Dorothy Brady',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {
@@ -109,6 +116,7 @@ const users = [
       name: 'Rodolfo Green',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {
@@ -123,6 +131,7 @@ const users = [
       name: 'Genevieve Potter',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {
@@ -137,6 +146,7 @@ const users = [
       name: 'Marilyn Austin',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {
@@ -151,6 +161,7 @@ const users = [
       name: 'Karla Bass',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {
@@ -165,6 +176,7 @@ const users = [
       name: 'Alonzo Christensen',
       phone_number: '+49 000 000000',
       phone_number_verified: false,
+      roles: 'user',
       updated_at: 1454704946
     },
     {

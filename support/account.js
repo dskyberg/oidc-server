@@ -1,23 +1,22 @@
-const low = require('lowdb');
-const Memory = require('lowdb/adapters/Memory');
+const low = require("lowdb");
+const Memory = require("lowdb/adapters/Memory");
 
 const db = low(new Memory());
-const users = require('./users')
+const users = require("./users");
 db.defaults({
   users: users,
 }).write();
 
 //const store = new Map();
 const logins = new Map();
-const { nanoid } = require('nanoid');
+const { nanoid } = require("nanoid");
 
 class Account {
-
-    constructor(id) {
-      this.accountId = id || nanoid();
-      //this.profile = profile;
-      //store.set(this.accountId, this);
-    }
+  constructor(id) {
+    this.accountId = id || nanoid();
+    //this.profile = profile;
+    //store.set(this.accountId, this);
+  }
 
   /**
    * @param use - can either be "id_token" or "userinfo", depending on
@@ -28,44 +27,43 @@ class Account {
    *   or not return them in id tokens but only userinfo and so on.
    */
 
-  async claims(use, scope) { // eslint-disable-line no-unused-vars
+  async claims(use, scope) {
+    // eslint-disable-line no-unused-vars
     try {
-    const id = this.accountId;
-    const account = db.get('users').find({id: id}).value();
-    if (!account) {
-      console.log('claims: could not find account:', id)
-      return undefined;
+      const id = this.accountId;
+      const account = db.get("users").find({ id: id }).value();
+      if (!account) {
+        console.log("claims: could not find account:", id);
+        return undefined;
+      }
+      console.log("claims: found account:", id);
+      return {
+        sub: this.accountId, // it is essential to always return a sub claim
+
+        address: {
+          country: "000",
+          locality: "000",
+          postal_code: "000",
+          region: "000",
+          street_address: "000",
+        },
+        birthdate: account.birthdate,
+        email: account.email,
+        email_verified: account.email_verified,
+        family_name: account.family_name,
+        gender: account.gender,
+        given_name: account.given_name,
+        locale: account.locale,
+        name: account.name,
+        phone_number: account.phone_number,
+        phone_number_verified: account.phone_number_verified,
+        roles: account.roles,
+        updated_at: account.updated_at,
+      };
+    } catch (err) {
+      console.log("claims panic:", err);
     }
-    console.log('claims: found account:', id)
-    return {
-      sub: this.accountId, // it is essential to always return a sub claim
-
-      address: {
-        country: '000',
-        formatted: '000',
-        locality: '000',
-        postal_code: '000',
-        region: '000',
-        street_address: '000',
-      },
-      birthdate: account.birthdate,
-      email: account.email,
-      email_verified: account.email_verified,
-      family_name: account.family_name,
-      gender: account.gender,
-      given_name: account.given_name,
-      locale: account.locale,
-      name: account.name,
-      phone_number: account.phone_number,
-      phone_number_verified: account.phone_number_verified,
-      updated_at: account.updated_at
-    };
-  }catch(err) {
-    console.log('claims panic:', err)
   }
-  }
-
-
 
   static async findByFederated(provider, claims) {
     const id = `${provider}.${claims.sub}`;
@@ -102,32 +100,35 @@ class Account {
   }
   */
 
-
-  static async findAccount(ctx, id, token) { // eslint-disable-line no-unused-vars
+  static async findAccount(ctx, id, token) {
+    // eslint-disable-line no-unused-vars
     // This would ideally be just a check whether the account is still in your storage
-    console.log('findAccount: looking for', id)
+    console.log("findAccount: looking for", id);
     //const lowercased = String(email).toLowerCase();
-    const account = db.get('users').find({id: id}).value();
+    const account = db.get("users").find({ id: id }).value();
     if (!account) {
-      console.log('ERROR: findAccount Unable to find accountId:', id)
+      console.log("ERROR: findAccount Unable to find accountId:", id);
       return undefined;
     }
-    console.log('findAccount: returning account:', account.id)
-    return new Account(account.id)
+    console.log("findAccount: returning account:", account.id);
+    return new Account(account.id);
   }
 
   // This can be anything you need to authenticate a user
   static async authenticate(email, password) {
     try {
-      console.log('authenticate: authenticating account:', email);
+      console.log("authenticate: authenticating account:", email);
       const lowercased = String(email).toLowerCase();
-      const account = db.get('users').find({
-        email: lowercased
-      }).value();
-      console.log('authenticate: returing account:', account.id)
+      const account = db
+        .get("users")
+        .find({
+          email: lowercased,
+        })
+        .value();
+      console.log("authenticate: returing account:", account.id);
       return account.id;
     } catch (err) {
-      console.log('authenticate panic:', err)
+      console.log("authenticate panic:", err);
       return undefined;
     }
   }

@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
 
 const path = require('path');
-
+const render = require('koa-ejs');
 const set = require('lodash/set');
 const Koa = require('koa');
-const render = require('koa-ejs');
 const helmet = require('koa-helmet');
 const mount = require('koa-mount');
 const serve = require('koa-static');
@@ -16,7 +15,8 @@ const { Provider } = require('oidc-provider'); // require('oidc-provider');
 
 const Account = require('./support/account');
 const configuration = require('./support/configuration');
-const routes = require('./routes/op');
+const op = require('./routes/op');
+const ssr = require('./routes/ssr');
 
 // Enable runtime transpiling for jsx files.
 const register = require('@babel/register')
@@ -43,12 +43,14 @@ const loggerOptions = {
 app.use(koaLogger(loggerOptions));
 
 app.use(helmet());
+
 render(app, {
   cache: false,
   viewExt: 'ejs',
   layout: '_layout',
-  root: path.join(__dirname, 'views'),
+  root: path.join(__dirname, 'ejs_views'),
 });
+
 
 if (process.env.NODE_ENV === 'production') {
   app.proxy = true;
@@ -88,7 +90,8 @@ let server;
 
   provider.use(helmet());
 
-  app.use(routes(provider).routes());
+  app.use(op(provider).routes());
+  app.use(ssr(provider).routes())
   app.use(mount(provider.app));
   server = app.listen(PORT, () => {
     console.log(`application is listening on port ${PORT}, check its /.well-known/openid-configuration`);

@@ -1,0 +1,73 @@
+
+
+<app-sign-in>
+  <ci-content-card>
+  <div class="content-card">
+  <img class="sign-in-card_title-image" src="/public/images/icon-user.svg" />
+    <h3 class="content-card-header"><%= title %></h3>
+    <div class="content-card-inner">
+      <div class="login-client-image">
+        <% if (client.logoUri) { %><img src="<%= client.logoUri %>"><% } %>
+      </div>
+
+      <ul>
+      <% if ([details.scopes.accepted, details.scopes.rejected, details.claims.accepted, details.claims.rejected].every(({ length }) => length === 0)) { %>
+        <li>this is a new authorization</li>
+      <% } %>
+
+      <% if ([details.scopes.new, details.claims.new].every(({ length }) => length === 0)) { %>
+        <li>the client is asking you to confirm previously given authorization</li>
+      <% } %>
+
+      <% newScopes = new Set(details.scopes.new); newScopes.delete('openid'); newScopes.delete('offline_access') %>
+      <% if (newScopes.size) { %>
+        <li>scopes:</li>
+        <ul>
+          <% newScopes.forEach((scope) => { %>
+            <li><%= scope %></li>
+          <% }) %>
+        </ul>
+      <% } %>
+
+      <% newClaims = new Set(details.claims.new); ['sub', 'sid', 'auth_time', 'acr', 'amr', 'iss'].forEach(Set.prototype.delete.bind(newClaims)) %>
+      <% if (newClaims.size) { %>
+        <li>claims:</li>
+        <ul>
+          <% newClaims.forEach((claim) => { %>
+            <li><%= claim %></li>
+          <% }) %>
+        </ul>
+      <% } %>
+
+      <% if (params.scope && params.scope.includes('offline_access')) { %>
+        <li>
+        the client is asking to have offline access to this authorization
+          <% if (!details.scopes.new.includes('offline_access')) { %>
+            (which you've previously granted)
+          <% } %>
+        </li>
+      <% } %>
+      </ul>
+      <form autocomplete="off" action="/interaction/<%= uid %>/confirm" method="post">
+        <div class="buttons-block">
+          <div class="left-button">
+            <button type="cancel" class="btn-block optimist-btn-text"
+            onclick="javascript:window.location='/interaction/<%= uid %>/abort';">Cancel</button>
+          </div>
+          <div class="right-button">
+            <button type="submit" class="btn-block optimist-btn-text signin-button">Authorize</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="login-help">
+      <% if (client.tosUri) { %>
+        <a href="<%= client.tosUri %>">[ Terms of Service ]</a>
+      <% } %>
+      <% if (client.policyUri) { %>
+        <a href="<%= client.policyUri %>">[ Privacy Policy ]</a>
+      <% } %>
+    </div>
+  </div>
+  </ci-content-card>
+</app-sign-in>

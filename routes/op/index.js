@@ -1,4 +1,6 @@
 /* eslint-disable no-console, max-len, camelcase, no-unused-vars */
+const path = require('path');
+
 const { strict: assert } = require('assert');
 const querystring = require('querystring');
 const crypto = require('crypto');
@@ -9,9 +11,11 @@ const bodyParser = require('koa-body');
 const Router = require('koa-router');
 
 const { renderError } = require('oidc-provider/lib/helpers/defaults'); // make your own, you'll need it anyway
-const Account = require('../support/account');
-
+const Account = require('../../support/account');
+const config = require('../../support/configuration');
+//import render from '../ssr/render'
 const keys = new Set();
+
 const debug = (obj) => querystring.stringify(Object.entries(obj).reduce((acc, [key, value]) => {
   keys.add(key);
   if (isEmpty(value)) return acc;
@@ -21,10 +25,22 @@ const debug = (obj) => querystring.stringify(Object.entries(obj).reduce((acc, [k
   encodeURIComponent(value) { return keys.has(value) ? `<strong>${value}</strong>` : value; },
 });
 
+const scopeClaims = (scopes) => {
+  const keys = Object.keys(config.claims)
+  const scope_claims = Array.from(new Set(scopes.map(scope => {
+    if(keys.includes(scope))
+    {
+        return config.claims[scope]
+    }
+    return []
+  }).flat()));
+  console.log(scope_claims)
+  return scope_claims
+}
+
 module.exports = (provider) => {
   const router = new Router();
   const { constructor: { errors: { SessionNotFound } } } = provider;
-
   router.use(async (ctx, next) => {
     ctx.set('Pragma', 'no-cache');
     ctx.set('Cache-Control', 'no-cache, no-store');
@@ -73,7 +89,8 @@ module.exports = (provider) => {
         });
       }
       case 'login': {
-        return ctx.render('login', {
+        const props = {
+          prompt,
           client,
           uid,
           details: prompt.details,
@@ -81,25 +98,46 @@ module.exports = (provider) => {
           title: 'Sign In',
           google: ctx.google,
           session: session ? debug(session) : undefined,
+          uris: {
+            continue: `/interaction/${uid}/login`,
+            abort: '/interaction/${uid}abort/'
+          },
           dbg: {
             params: debug(params),
-            prompt: debug(prompt),
+            prompt: debug(prompt)
           },
-        });
+        }
+        return ctx.render('login', props);
+        //ctx.type = 'html'
+        //ctx.body = render(ctx.url, props)
+        return
       }
       case 'consent': {
-        return ctx.render('interaction', {
+        const scope_claims = scopeClaims(prompt.details.scopes.new)
+
+        const props = {
           client,
           uid,
           details: prompt.details,
           params,
           title: 'Authorize',
           session: session ? debug(session) : undefined,
+
           dbg: {
             params: debug(params),
             prompt: debug(prompt),
+            scope_claims: debug(scope_claims),
           },
-        });
+
+          uris: {
+            continue: `/interaction/${uid}/confirm`,
+            abort: `/interaction/${uid}/abort`
+          },
+        }
+        //console.log('consent props:', props)
+        return ctx.render('interaction', props);
+        //render('interaction', props)
+        //return
       }
       default:
         return next();
@@ -113,14 +151,16 @@ module.exports = (provider) => {
 
   router.post('/interaction/:uid/login', body, async (ctx) => {
     const { prompt: { name } } = await provider.interactionDetails(ctx.req, ctx.res);
-    assert.equal(name, 'login');
+    assert.strictEqual(name, 'login');
 
    try {
     const { uid, prompt, params } = await provider.interactionDetails(ctx.req, ctx.res);
     const client = await provider.Client.find(params.client_id);
 
     const accountId = await Account.authenticate(ctx.req.body.login, ctx.req.body.password);
+
     if (!accountId) {
+
       ctx.render('login', {
         client,
         uid,
@@ -133,6 +173,11 @@ module.exports = (provider) => {
         flash: 'Invalid email or password.',
       });
       return;
+
+      //ctx.status = 404
+      //ctx.type = 'json'
+      //ctx.body = JSON.stringify({error: 'Invalid email or password.'})
+      //return
     }
 
     const result = {
@@ -152,7 +197,7 @@ module.exports = (provider) => {
   router.post('/interaction/:uid/continue', body, async (ctx) => {
     const interaction = await provider.interactionDetails(ctx.req, ctx.res);
     const { prompt: { name, details } } = interaction;
-    assert.equal(name, 'select_account');
+    assert.strictEqual(name, 'select_account');
 
     if (ctx.request.body.switch) {
       if (interaction.params.prompt) {
@@ -173,7 +218,7 @@ module.exports = (provider) => {
 
   router.post('/interaction/:uid/confirm', body, async (ctx) => {
     const { prompt: { name, details } } = await provider.interactionDetails(ctx.req, ctx.res);
-    assert.equal(name, 'consent');
+    assert.strictEqual(name, 'consent');
 
     const consent = {};
 
